@@ -1,5 +1,4 @@
--- MADE BY Darth Vader#4663
-
+-- CREATED BY Darth Vader#4663 --
 
 
 
@@ -7,16 +6,17 @@ local hxmain_module = Instance.new("ScreenGui")
 hxmain_module.IgnoreGuiInset = false
 hxmain_module.ResetOnSpawn = true
 hxmain_module.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-hxmain_module.Name = "HXMainModule"
+hxmain_module.Name = "HXMainModule" or "y8bw48iaujsdn" or "FUN898d9qUs" or "dny8wq72dAaA"
 hxmain_module.Parent = game.Players.LocalPlayer.PlayerGui
 
 local main = Instance.new("Frame")
 main.BackgroundColor3 = Color3.new(0.137255, 0.137255, 0.137255)
 main.BackgroundTransparency = 0.10000000149011612
-main.BorderSizePixel = 0
+main.BorderColor3 = Color3.new(0.137255, 0.137255, 0.137255)
+main.BorderSizePixel = 2
 main.ClipsDescendants = true
 main.Position = UDim2.new(0.0074525848, 0, 0.711111128, 0)
-main.Size = UDim2.new(0.264905095, 0, 0.260493815, 0)
+main.Size = UDim2.new(0.264905095, 0, 0.248148128, 0)
 main.Visible = true
 main.Name = "Main"
 main.Parent = hxmain_module
@@ -124,12 +124,25 @@ task.spawn(function()
 		return oldreq(target)
 	end
 
-	local main = script.Parent.Parent.Parent.Parent
+	local main = script.Parent.Parent.Parent
+	local player = game.Players.LocalPlayer
 	
-	script.Parent.MouseButton1Down:Connect(function()
+	
+	closed = false
+	
+	script.Parent.MouseButton1Down:Connect(function(player)
 		main:Destroy()
 		print("Closed")
+		closed = true
 	end)
+	
+	
+	if closed == false then
+		wait()
+		main.BackgroundTransparency = 0.1
+		main.Parent.Enabled = true
+	end
+	
 end)
 
 -- Main
@@ -156,7 +169,7 @@ task.spawn(function()
 		local clone = message:Clone()
 		clone.Parent = scrollingframe
 		clone.TextTransparency = 0
-		scrollingframe.CanvasPosition = Vector2.new(0, 509.25)
+		scrollingframe.CanvasPosition = Vector2.new(0, 709.25)
 		
 	end)
 	
@@ -179,7 +192,7 @@ task.spawn(function()
 	local message = scrollingframe:WaitForChild("Message")
 	
 	
-	scrollingframe.CanvasPosition = Vector2.new(0, 509.25)
+	scrollingframe.CanvasPosition = Vector2.new(0, 709.25)
 end)
 
 -- Dragify
@@ -197,14 +210,14 @@ task.spawn(function()
 	local UIS = game:GetService("UserInputService")
 	function dragify(Frame)
 	    dragToggle = nil
-		local dragSpeed = 0.1
+		local dragSpeed = 0.15
 	    dragInput = nil
 	    dragStart = nil
 	    local dragPos = nil
 	    function updateInput(input)
 	        local Delta = input.Position - dragStart
 	        local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
-	        game:GetService("TweenService"):Create(Frame, TweenInfo.new(0.20), {Position = Position}):Play()
+	        game:GetService("TweenService"):Create(Frame, TweenInfo.new(0.15), {Position = Position}):Play()
 	    end
 	    Frame.InputBegan:Connect(function(input)
 	        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UIS:GetFocusedTextBox() == nil then
