@@ -1,0 +1,234 @@
+-- MADE BY Darth Vader#4663
+
+
+
+
+local hxmain_module = Instance.new("ScreenGui")
+hxmain_module.IgnoreGuiInset = false
+hxmain_module.ResetOnSpawn = true
+hxmain_module.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+hxmain_module.Name = "HXMainModule"
+hxmain_module.Parent = game.Players.LocalPlayer.PlayerGui
+
+local main = Instance.new("Frame")
+main.BackgroundColor3 = Color3.new(0.137255, 0.137255, 0.137255)
+main.BackgroundTransparency = 0.10000000149011612
+main.BorderSizePixel = 0
+main.ClipsDescendants = true
+main.Position = UDim2.new(0.0074525848, 0, 0.711111128, 0)
+main.Size = UDim2.new(0.264905095, 0, 0.260493815, 0)
+main.Visible = true
+main.Name = "Main"
+main.Parent = hxmain_module
+
+local credits = Instance.new("TextLabel")
+credits.Font = Enum.Font.ArialBold
+credits.Text = "Chat Logger - Darth Vader#4663"
+credits.TextColor3 = Color3.new(0.45098, 0.45098, 0.45098)
+credits.TextSize = 15
+credits.TextWrapped = true
+credits.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+credits.BorderSizePixel = 0
+credits.Size = UDim2.new(1.00000012, 0, 0.0976142585, 0)
+credits.Visible = true
+credits.Name = "Credits"
+credits.Parent = main
+
+local close = Instance.new("TextButton")
+close.Font = Enum.Font.ArialBold
+close.Text = "X"
+close.TextColor3 = Color3.new(0.494118, 0.0117647, 0.0823529)
+close.TextScaled = true
+close.TextSize = 14
+close.TextWrapped = true
+close.BackgroundColor3 = Color3.new(1, 1, 1)
+close.BackgroundTransparency = 1
+close.BorderSizePixel = 0
+close.Position = UDim2.new(0.935867012, 0, 0, 0)
+close.Size = UDim2.new(0.0641330183, 0, 1, 0)
+close.Visible = true
+close.Name = "Close"
+close.Parent = credits
+
+local local_script = Instance.new("LocalScript")
+local_script.Parent = close
+
+local scrolling_frame = Instance.new("ScrollingFrame")
+scrolling_frame.CanvasSize = UDim2.new(0, 0, 1.5, 0)
+scrolling_frame.HorizontalScrollBarInset = Enum.ScrollBarInset.Always
+scrolling_frame.ScrollBarImageColor3 = Color3.new(0, 0, 0)
+scrolling_frame.ScrollBarThickness = 5
+scrolling_frame.ScrollingDirection = Enum.ScrollingDirection.Y
+scrolling_frame.Active = true
+scrolling_frame.BackgroundColor3 = Color3.new(1, 1, 1)
+scrolling_frame.BackgroundTransparency = 1
+scrolling_frame.BorderSizePixel = 0
+scrolling_frame.Position = UDim2.new(0, 0, 0.103585638, 0)
+scrolling_frame.Size = UDim2.new(1.00000012, 0, 0.896414459, 0)
+scrolling_frame.Visible = true
+scrolling_frame.Parent = main
+
+local message = Instance.new("TextLabel")
+message.Font = Enum.Font.ArialBold
+message.RichText = true
+message.Text = "Player: Message"
+message.TextColor3 = Color3.new(1, 1, 1)
+message.TextSize = 17
+message.TextTransparency = 1
+message.TextWrapped = true
+message.TextXAlignment = Enum.TextXAlignment.Left
+message.AutomaticSize = Enum.AutomaticSize.XY
+message.BackgroundColor3 = Color3.new(1, 1, 1)
+message.BackgroundTransparency = 1
+message.BorderSizePixel = 0
+message.ClipsDescendants = true
+message.Position = UDim2.new(9.7562598e-09, 0, 0.975602984, 0)
+message.Size = UDim2.new(0.322997421, 0, 0.0564668179, 0)
+message.Visible = true
+message.Name = "Message"
+message.Parent = scrolling_frame
+
+local main_2 = Instance.new("LocalScript")
+main_2.Name = "Main"
+main_2.Parent = scrolling_frame
+
+local uilist_layout = Instance.new("UIListLayout")
+uilist_layout.Padding = UDim.new(0.003000000026077032, 0)
+uilist_layout.SortOrder = Enum.SortOrder.LayoutOrder
+uilist_layout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+uilist_layout.Parent = scrolling_frame
+
+local scrolling = Instance.new("LocalScript")
+scrolling.Name = "Scrolling"
+scrolling.Parent = scrolling_frame
+
+local dragify = Instance.new("LocalScript")
+dragify.Name = "Dragify"
+dragify.Parent = main
+
+--//Modules
+
+local modules = {}
+
+--// Scripts
+
+-- LocalScript
+task.spawn(function()
+	local script = local_script
+
+	local oldreq = require
+	local function require(target)
+		if modules[target] then
+			return modules[target]()
+		end
+		return oldreq(target)
+	end
+
+	local main = script.Parent.Parent.Parent.Parent
+	
+	script.Parent.MouseButton1Down:Connect(function()
+		main:Destroy()
+		print("Closed")
+	end)
+end)
+
+-- Main
+task.spawn(function()
+	local script = main_2
+
+	local oldreq = require
+	local function require(target)
+		if modules[target] then
+			return modules[target]()
+		end
+		return oldreq(target)
+	end
+
+	local main = script.Parent.Parent -- properties
+	local scrollingframe = main:WaitForChild("ScrollingFrame")
+	local message = scrollingframe:WaitForChild("Message")
+	
+	
+	local event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents
+	event.OnMessageDoneFiltering.OnClientEvent:Connect(function(object)
+		
+		message.Text = string.format("%s : %s", object.FromSpeaker, object.Message)   -- creates message
+		local clone = message:Clone()
+		clone.Parent = scrollingframe
+		clone.TextTransparency = 0
+		scrollingframe.CanvasPosition = Vector2.new(0, 509.25)
+		
+	end)
+	
+end)
+
+-- Scrolling
+task.spawn(function()
+	local script = scrolling
+
+	local oldreq = require
+	local function require(target)
+		if modules[target] then
+			return modules[target]()
+		end
+		return oldreq(target)
+	end
+
+	local main = script.Parent.Parent -- properties
+	local scrollingframe = main:WaitForChild("ScrollingFrame")
+	local message = scrollingframe:WaitForChild("Message")
+	
+	
+	scrollingframe.CanvasPosition = Vector2.new(0, 509.25)
+end)
+
+-- Dragify
+task.spawn(function()
+	local script = dragify
+
+	local oldreq = require
+	local function require(target)
+		if modules[target] then
+			return modules[target]()
+		end
+		return oldreq(target)
+	end
+
+	local UIS = game:GetService("UserInputService")
+	function dragify(Frame)
+	    dragToggle = nil
+		local dragSpeed = 0.1
+	    dragInput = nil
+	    dragStart = nil
+	    local dragPos = nil
+	    function updateInput(input)
+	        local Delta = input.Position - dragStart
+	        local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+	        game:GetService("TweenService"):Create(Frame, TweenInfo.new(0.20), {Position = Position}):Play()
+	    end
+	    Frame.InputBegan:Connect(function(input)
+	        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UIS:GetFocusedTextBox() == nil then
+	            dragToggle = true
+	            dragStart = input.Position
+	            startPos = Frame.Position
+	            input.Changed:Connect(function()
+	                if input.UserInputState == Enum.UserInputState.End then
+	                    dragToggle = false
+	                end
+	            end)
+	        end
+	    end)
+	    Frame.InputChanged:Connect(function(input)
+	        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+	            dragInput = input
+	        end
+	    end)
+	    game:GetService("UserInputService").InputChanged:Connect(function(input)
+	        if input == dragInput and dragToggle then
+	            updateInput(input)
+	        end
+	    end)
+	end
+	
+	dragify(script.Parent)
+end)
