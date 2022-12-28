@@ -54,7 +54,7 @@ local local_script = Instance.new("LocalScript")
 local_script.Parent = close
 
 local scrolling_frame = Instance.new("ScrollingFrame")
-scrolling_frame.CanvasSize = UDim2.new(0, 0, 1.5, 0)
+scrolling_frame.CanvasSize = UDim2.new(0, 0, 2, 0)
 scrolling_frame.HorizontalScrollBarInset = Enum.ScrollBarInset.Always
 scrolling_frame.ScrollBarImageColor3 = Color3.new(0, 0, 0)
 scrolling_frame.ScrollBarThickness = 5
